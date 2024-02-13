@@ -4,7 +4,6 @@ import com.sparta.newsfeed_project.CommonResponse;
 import com.sparta.newsfeed_project.dto.PostRequestDto;
 import com.sparta.newsfeed_project.dto.PostResponseDto;
 import com.sparta.newsfeed_project.entity.Post;
-//import com.sparta.newsfeed_project.entity.User;
 import com.sparta.newsfeed_project.security.UserDetailsImpl;
 import com.sparta.newsfeed_project.service.PostService;
 import jakarta.validation.Valid;
@@ -25,6 +24,8 @@ import java.util.List;
 @Builder
 public class PostController {
     private final PostService postService;
+
+//    완료
 
     @PostMapping("/post")
     public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -50,7 +51,7 @@ public class PostController {
                         .build());
     }
 
-    @GetMapping("/posts/{id}")
+    @GetMapping("/post/{id}")
     public ResponseEntity<CommonResponse<PostResponseDto>> getPost(@PathVariable Long id) {
         Post post = postService.getPost(id);
 
@@ -63,11 +64,26 @@ public class PostController {
                         .msg("조회가 완료 되었습니다.")
                         .data(response)
                         .build());
+
     }
 
+ /*   @PutMapping("/post/{id}")
+    public Long updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto){
+        return postService.update(id,requestDto);
+
+    }
+    */
+
+
+ @DeleteMapping("/post/{id}")
+    public Long deletePost(@PathVariable Long id){
+         return postService.delete(id);
+
+ }
+
     @Transactional
-    @PutMapping("/posts/{id}")
-    public ResponseEntity<CommonResponse<PostResponseDto>> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    @PutMapping("/post/{id}")
+    public ResponseEntity<CommonResponse<PostResponseDto>> updatePost(@PathVariable Long id, PostRequestDto requestDto) {
         {
             Post post = postService.updatePost(id, requestDto);
             PostResponseDto response = new PostResponseDto(post);

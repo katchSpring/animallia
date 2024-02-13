@@ -1,5 +1,4 @@
 package com.sparta.newsfeed_project.entity;
-
 import com.sparta.newsfeed_project.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,12 +25,11 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-
     @Builder
-    public Post(Long id, String title, String content,User user) {
+    public Post(Long id,String title, String content,User user){
         this.id = id;
-        this.title = title;
-        this.content = content;
+        this.title =title;
+        this.content =content;
         this.user = user;
     }
 

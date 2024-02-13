@@ -2,6 +2,8 @@ package com.sparta.newsfeed_project.service;
 
 import com.sparta.newsfeed_project.dto.LoginRequestDto;
 import com.sparta.newsfeed_project.dto.SignupRequestDto;
+import com.sparta.newsfeed_project.dto.UserRequestDto;
+import com.sparta.newsfeed_project.dto.UserResponseDto;
 import com.sparta.newsfeed_project.entity.User;
 import com.sparta.newsfeed_project.entity.UserRoleEnum;
 import com.sparta.newsfeed_project.jwt.JwtUtil;
@@ -11,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.sparta.newsfeed_project.dto.UserRequestDto;
-import com.sparta.newsfeed_project.dto.UserResponseDto;
 
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
