@@ -35,9 +35,9 @@ public class PostController {
     private final JwtUtil jwtUtil;
     @PostMapping("/posts/{id}")
     public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("userDetails = " + userDetails);
+        System.out.println("userDetails = " + userDetails.getPassword());
 
-        
+
 
         return ResponseEntity.ok()
                 .body(CommonResponse.<PostResponseDto>builder()
