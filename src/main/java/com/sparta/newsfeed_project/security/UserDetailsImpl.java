@@ -21,9 +21,9 @@ public class UserDetailsImpl implements UserDetails {
     }
 
 
-    public User getUser() {
-        return user;
-    }
+//    public UserDetailsImpl getUser() {
+//        return user;
+//    }
 
     @Override
     public String getPassword() {

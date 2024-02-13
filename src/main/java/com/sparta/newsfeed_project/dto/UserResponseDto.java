@@ -28,8 +28,8 @@ public class UserResponseDto extends CommonResponseDto {
     }
 
     public UserResponseDto(User user) {
-        this.id = user.getId();
-        this.userName = user.getUserName();
+        this.id = user.getUserId();
+        this.userName = user.getUsername();
         this.password = user.getPassword();
         this.intro = user.getIntro();
 

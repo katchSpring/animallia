@@ -7,13 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserRequestDto {
-    String userName;
+    String username;
     String password;
     String intro;
 
     public User toEntity() {
         return User.builder()
-                .userName(userName)
+                .username(username)
                 .password(password)
                 .intro(intro)
                 .build();

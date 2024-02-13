@@ -16,7 +16,6 @@ import com.sparta.newsfeed_project.dto.UserRequestDto;
 import com.sparta.newsfeed_project.dto.UserResponseDto;
 import com.sparta.newsfeed_project.entity.User;
 import com.sparta.newsfeed_project.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -78,6 +77,7 @@ public class UserService {
 //    //프로필 비밀번호 체크
     private User checkPWAndGet(Long id, String password) {
         User user = getUser(id);
+
 
         // 비밀번호 체크
         if (user.getPassword() != null

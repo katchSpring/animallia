@@ -23,18 +23,18 @@ public class Post {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
 
 
+
     @Builder
-    public Post(Long id, String title, String content,User user) {
-        this.id = id;
+    public Post(String title, String content ) {
         this.title = title;
         this.content = content;
-        this.user = user;
     }
+
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();

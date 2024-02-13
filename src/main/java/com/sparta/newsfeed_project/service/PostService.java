@@ -1,11 +1,16 @@
 package com.sparta.newsfeed_project.service;
 
 import com.sparta.newsfeed_project.dto.PostRequestDto;
+import com.sparta.newsfeed_project.dto.PostResponseDto;
 import com.sparta.newsfeed_project.entity.Post;
+import com.sparta.newsfeed_project.entity.User;
 import com.sparta.newsfeed_project.repository.PostRepository;
 import com.sparta.newsfeed_project.repository.UserRepository;
+import com.sparta.newsfeed_project.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -15,10 +20,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public Post createPost(PostRequestDto dto) {
-        Post newPost = dto.toEntity();
-        return postRepository.save(newPost);
-    }
+
 
     public List<Post> getPostList() {
         return postRepository.findAll();
@@ -49,10 +51,8 @@ public class PostService {
         return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
     }
 
-
-
-
-
-
+//    public PostResponseDto createPost(PostRequestDto requestDto, User user) {
+//        return userRepository.
+//    }
 
 }

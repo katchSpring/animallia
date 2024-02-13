@@ -12,6 +12,6 @@ public class UserDto {
     private String userName;
 
     public UserDto(User user) {
-        this.userName = user.getUserName();
+        this.userName = user.getUsername();
     }
 }

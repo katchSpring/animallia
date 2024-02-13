@@ -1,16 +1,20 @@
 package com.sparta.newsfeed_project.entity;
 
 
+import com.sparta.newsfeed_project.dto.PostRequestDto;
 import jakarta.persistence.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @Table(name = "users")
 public class User {
@@ -41,10 +45,13 @@ public class User {
     
 
     @Builder
-    public User(Long userId, String userName, String password, String intro){
-        this.id = userId;
-        this.userName = userName;
+    public User(Long userId, String username, String password, String intro){
+        this.userId = userId;
+        this.username = username;
         this.password =password;
         this.intro = intro;
+    }
+
+    public User(PostRequestDto requestDto, HttpServletRequest token) {
     }
 }
