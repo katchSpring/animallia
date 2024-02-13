@@ -18,7 +18,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
     // Header KEY 값
-    public static final String AUTHORIZATION_HEADER = "UserAuthorization";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
     // 사용자 권한 값의 KEY
     public static final String AUTHORIZATION_KEY = "auth";
     // Token 식별자
@@ -63,8 +63,6 @@ public class JwtUtil {
         return null;
     }
 
-
-
     // 토큰 검증
     public boolean validateToken(String token) {
         try {
@@ -82,12 +80,9 @@ public class JwtUtil {
         return false;
     }
 
-
-
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
-
 
 }

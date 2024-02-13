@@ -16,8 +16,6 @@ public class UserResponseDto extends CommonResponseDto {
 
     private String userName;
 
-    private String password;
-
     private String intro;
 
     private List<Post> postList = new ArrayList<>();
@@ -28,10 +26,8 @@ public class UserResponseDto extends CommonResponseDto {
     }
 
     public UserResponseDto(User user) {
-        this.id = user.getId();
-        this.userName = user.getUserName();
-        this.password = user.getPassword();
+        this.id = user.getUserId();
+        this.userName = user.getUsername();
         this.intro = user.getIntro();
-
     }
 }

@@ -5,11 +5,14 @@ import com.sparta.newsfeed_project.dto.PostRequestDto;
 import com.sparta.newsfeed_project.dto.PostResponseDto;
 import com.sparta.newsfeed_project.entity.Post;
 //import com.sparta.newsfeed_project.entity.User;
+import com.sparta.newsfeed_project.security.UserDetailsImpl;
 import com.sparta.newsfeed_project.service.PostService;
+import jakarta.validation.Valid;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,15 +23,13 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @Builder
-// gkdl
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/posts/{id}")
-    public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto,@PathVariable Long id) {
-        Post post = postService.createPost(requestDto);
+    @PostMapping("/post")
+    public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Post post = postService.createPost(requestDto, userDetails);
         PostResponseDto response = new PostResponseDto(post);
-
         return ResponseEntity.ok()
                 .body(CommonResponse.<PostResponseDto>builder()
                         .statusCode(HttpStatus.OK.value())

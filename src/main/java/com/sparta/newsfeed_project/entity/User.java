@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,8 +43,8 @@ public class User {
 
     @Builder
     public User(Long userId, String userName, String password, String intro){
-        this.id = userId;
-        this.userName = userName;
+        this.userId = userId;
+        this.username = userName;
         this.password =password;
         this.intro = intro;
     }

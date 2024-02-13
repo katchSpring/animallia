@@ -2,10 +2,13 @@ package com.sparta.newsfeed_project.service;
 
 import com.sparta.newsfeed_project.dto.PostRequestDto;
 import com.sparta.newsfeed_project.entity.Post;
+import com.sparta.newsfeed_project.entity.User;
 import com.sparta.newsfeed_project.repository.PostRepository;
 import com.sparta.newsfeed_project.repository.UserRepository;
+import com.sparta.newsfeed_project.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,8 +18,10 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public Post createPost(PostRequestDto dto) {
-        Post newPost = dto.toEntity();
+    public Post createPost(PostRequestDto requestDto, UserDetailsImpl userDetails) {
+        Post newPost = requestDto.toEntity();
+        newPost.setUser(userDetails.getUser());
+        System.out.println("user = " + newPost.getUser());
         return postRepository.save(newPost);
     }
 
@@ -34,7 +39,7 @@ public class PostService {
 
         return postRepository.save(post);
     }
-      @Transactional
+    @Transactional
     public Long deletePost(Long id) {
         postRepository.deleteById(id);
         return id;

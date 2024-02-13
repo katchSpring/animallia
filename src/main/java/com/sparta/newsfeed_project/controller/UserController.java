@@ -2,6 +2,10 @@ package com.sparta.newsfeed_project.controller;
 
 import com.sparta.newsfeed_project.dto.LoginRequestDto;
 import com.sparta.newsfeed_project.dto.SignupRequestDto;
+import com.sparta.newsfeed_project.dto.UserRequestDto;
+import com.sparta.newsfeed_project.dto.UserResponseDto;
+import com.sparta.newsfeed_project.entity.User;
+import com.sparta.newsfeed_project.jwt.JwtUtil;
 import com.sparta.newsfeed_project.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +32,7 @@ public class UserController {
 
     @GetMapping("/user/login-page")
     public String login() {
+        JwtUtil jwtUtil = new JwtUtil();
         return "login-page";
     }
 
@@ -45,6 +50,7 @@ public class UserController {
         }
         return new ResponseEntity<>("login-sucess",HttpStatus.OK);
     }
+
   //프로필 단건 조회
   @GetMapping("/user/profile/{id}")
     public ResponseEntity<UserResponseDto> getProfile(@PathVariable Long id) {

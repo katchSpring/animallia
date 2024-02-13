@@ -8,19 +8,12 @@ import com.sparta.newsfeed_project.jwt.JwtUtil;
 import com.sparta.newsfeed_project.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.sparta.newsfeed_project.dto.UserRequestDto;
 import com.sparta.newsfeed_project.dto.UserResponseDto;
-import com.sparta.newsfeed_project.entity.User;
-import com.sparta.newsfeed_project.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -58,6 +51,7 @@ public class UserService {
 
 
     public User getUser(Long id){
+
         return userRepository.findById(id)
                 .orElseThrow(IllegalArgumentException::new);
     }
@@ -68,7 +62,7 @@ public class UserService {
     public UserResponseDto updateProfile(Long id, UserRequestDto dto) {
         User user = checkPWAndGet(id, dto.getPassword());
 
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setIntro(dto.getIntro());
 
         return new UserResponseDto(user);
@@ -80,10 +74,14 @@ public class UserService {
         User user = getUser(id);
 
         // 비밀번호 체크
-        if (user.getPassword() != null
-                && !Objects.equals(user.getPassword(), password)) {
-            throw new IllegalArgumentException();
+        if (!passwordEncoder.matches(password,user.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
+
+//        if (user.getPassword() != null
+//                && !Objects.equals(user.getPassword(), password)) {
+//            throw new IllegalArgumentException();
+//        }
         return user;
     }
 }
