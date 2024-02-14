@@ -1,6 +1,9 @@
 package com.sparta.newsfeed_project.entity;
 
+
+import com.sparta.newsfeed_project.dto.PostRequestDto;
 import jakarta.persistence.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,8 +34,6 @@ public class User {
     @Column(length = 100)
     private String intro;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // mappedBy 속성을 사용하여 매핑된 엔티티의 필드명을 지정
-    private List<Post> posts = new ArrayList<>(); // Post 엔티티와의 일대다 관계 설정
 
     public User(String username, String password,UserRoleEnum role) {
         this.username = username;
@@ -41,10 +42,11 @@ public class User {
     }
 
     @Builder
-    public User(Long userId, String userName, String password, String intro){
+    public User(Long userId, String username, String password, String intro){
         this.userId = userId;
-        this.username = userName;
+        this.username = username;
         this.password =password;
         this.intro = intro;
     }
+
 }
