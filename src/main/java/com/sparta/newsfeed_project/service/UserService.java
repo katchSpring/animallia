@@ -75,11 +75,6 @@ public class UserService {
         if (!passwordEncoder.matches(password,user.getPassword())) {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
-
-//        if (user.getPassword() != null
-//                && !Objects.equals(user.getPassword(), password)) {
-//            throw new IllegalArgumentException();
-//        }
         return user;
     }
 }
