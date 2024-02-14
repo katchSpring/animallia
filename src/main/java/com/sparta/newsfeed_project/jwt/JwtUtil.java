@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
+import java.util.*;
 
 @Slf4j(topic = "JwtUtil")
 @Component
@@ -24,7 +23,7 @@ public class JwtUtil {
     // Token 식별자
     public static final String BEARER_PREFIX = "Bearer ";
     // 토큰 만료시간
-    private final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
+    private final long TOKEN_TIME = 60 * 60 * 1000000L; // 60분
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
     private String secretKey;
@@ -50,6 +49,18 @@ public class JwtUtil {
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
     }
+    public  String createRefreshToken(String key) {
+        Claims claims = Jwts
+                .claims();
+
+        return Jwts
+                .builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 3))//유효시간 (3일)
+                .signWith(SignatureAlgorithm.HS256, key) //HS256알고리즘으로 key를 암호화 해줄것이다.
+                .compact();
+    }
     public void addJwtToHeader(String token, HttpServletResponse response) {
         response.setHeader(AUTHORIZATION_HEADER, token);
     }
@@ -62,8 +73,6 @@ public class JwtUtil {
         }
         return null;
     }
-
-
 
     // 토큰 검증
     public boolean validateToken(String token) {
@@ -86,8 +95,11 @@ public class JwtUtil {
 
     // 토큰에서 사용자 정보 가져오기
     public Claims getUserInfoFromToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        Claims tempt = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return tempt;
+
     }
+
 
 
 }

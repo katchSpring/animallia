@@ -10,6 +10,7 @@ import com.sparta.newsfeed_project.jwt.JwtUtil;
 import com.sparta.newsfeed_project.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,11 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+//    private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
+    private String secretKey;
 
     @Transactional
     public void signup(SignupRequestDto requestDto) {
@@ -44,8 +49,11 @@ public class UserService {
             throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
         String token = jwtUtil.createToken(user.getUsername(), user.getRole());
-        jwtUtil.addJwtToHeader(token, res);
-
+//        String refreshToken = jwtUtil.createRefreshToken(secretKey);
+        jwtUtil.addJwtToHeader(token,res);
+//        jwtUtil.addJwtToHeader(refreshToken,res);
+//        //레디스에 저장 Refresh 토큰을 저장한다. (사용자 기본키 Id, refresh 토큰, access 토큰 저장)
+//        refreshTokenRepository.save(new RefreshToken(String.valueOf(user.getUserId()), refreshToken, token));
     }
 
 
@@ -59,7 +67,7 @@ public class UserService {
     //프로필 수정
     @Transactional
     public UserResponseDto updateProfile(Long id, UserRequestDto dto) {
-        User user = checkPWAndGet(id, dto.getPassword());
+        User user = checkPWAndGet(id, dto);
 
         user.setPassword(dto.getPassword());
         user.setIntro(dto.getIntro());
@@ -69,12 +77,13 @@ public class UserService {
     }
 
 //    //프로필 비밀번호 체크
-    private User checkPWAndGet(Long id, String password) {
+    private User checkPWAndGet(Long id, UserRequestDto dto) {
         User user = getUser(id);
 
+        String decodedPassword = dto.getPassword();
         // 비밀번호 체크
-        if (user.getPassword() != null
-                && !Objects.equals(user.getPassword(), password)) {
+        if (decodedPassword != null &&
+                passwordEncoder.matches(decodedPassword, passwordEncoder.encode(user.getPassword()))) {
             throw new IllegalArgumentException();
         }
         return user;

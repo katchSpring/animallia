@@ -1,4 +1,5 @@
 package com.sparta.newsfeed_project.entity;
+
 import com.sparta.newsfeed_project.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,16 +23,20 @@ public class Post {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
+
+
+
     @Builder
-    public Post(Long id,String title, String content,User user){
+    public Post(Long id,String title, String content,User user ) {
         this.id = id;
-        this.title =title;
-        this.content =content;
+        this.title = title;
+        this.content = content;
         this.user = user;
     }
+
 
     public void update(PostRequestDto requestDto) {
         this.title = requestDto.getTitle();
