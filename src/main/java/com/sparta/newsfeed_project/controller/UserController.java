@@ -5,16 +5,21 @@ import com.sparta.newsfeed_project.dto.SignupRequestDto;
 import com.sparta.newsfeed_project.dto.UserRequestDto;
 import com.sparta.newsfeed_project.dto.UserResponseDto;
 import com.sparta.newsfeed_project.entity.User;
+import com.sparta.newsfeed_project.security.UserDetailsImpl;
 import com.sparta.newsfeed_project.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -35,19 +40,33 @@ public class UserController {
     }
 
     @PostMapping("/user/signup")
-    public void signup(@RequestBody SignupRequestDto requestDto) {
+    public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult result) {
+        if (result.hasErrors()) {
+            // Handle validation errors
+            return ResponseEntity.badRequest().body("Validation failed: " + result.getAllErrors());
+        }
+
+        // Proceed with valid data
         userService.signup(requestDto);
+        return ResponseEntity.ok("Data posted successfully");
     }
 
     @GetMapping("/user/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto, HttpServletResponse res) {
         try {
             userService.login(requestDto, res);
+
         } catch (Exception e) {
             e.getMessage();
         }
         return new ResponseEntity<>("login-sucess",HttpStatus.OK);
     }
+//    @GetMapping("/user/logout")
+//    public ResponseEntity<String> logout(){
+//        userService.logout(requestDto,res);
+//    }
+
+
   //프로필 단건 조회
   @GetMapping("/user/profile/{id}")
     public ResponseEntity<UserResponseDto> getProfile(@PathVariable Long id) {

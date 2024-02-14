@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
+import java.util.Optional;
 // 하이
 
 @RequestMapping("/api")
@@ -33,29 +34,26 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
     private final JwtUtil jwtUtil;
-    @PostMapping("/posts/{id}")
-    public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetails userDetails) {
-        System.out.println("userDetails = " + userDetails.getPassword());
-
-
-
+    @PostMapping("/post")
+    public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Post post = postService.createPost(requestDto, userDetails);
+        PostResponseDto response = new PostResponseDto(post);
         return ResponseEntity.ok()
                 .body(CommonResponse.<PostResponseDto>builder()
                         .statusCode(HttpStatus.OK.value())
                         .msg("생성이 완료 되었습니다.")
-                        .data(null)
+                        .data(response)
                         .build());
     }
 
 
     @GetMapping("/posts")
     public ResponseEntity<CommonResponse<List<PostResponseDto>>> getPostList() {
-        List<Post> postList = postService.getPostList();
-        List<PostResponseDto> response = postList.stream().map(PostResponseDto::new).toList();
+        List<PostResponseDto> response = postService.getPostList();
         return ResponseEntity.ok()
                 .body(CommonResponse.<List<PostResponseDto>>builder()
                         .statusCode(HttpStatus.OK.value())
-                        .msg("리스트 조회가 완료 되었습니다.")
+                        .msg("List search has been completed.")
                         .data(response)
                         .build());
     }
@@ -77,7 +75,7 @@ public class PostController {
 
     @Transactional
     @PutMapping("/posts/{id}")
-    public ResponseEntity<CommonResponse<PostResponseDto>> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto) {
+    public ResponseEntity<CommonResponse<PostResponseDto>> updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         {
             Post post = postService.updatePost(id, requestDto);
             PostResponseDto response = new PostResponseDto(post);
@@ -90,6 +88,16 @@ public class PostController {
                             .build());
         }
 
+    }
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<CommonResponse<PostResponseDto>> deletePost(@PathVariable Long id){
+        postService.deletePost(id);
+        // 완료
+        return ResponseEntity.ok()
+                .body(CommonResponse.<PostResponseDto>builder()
+                        .statusCode(HttpStatus.OK.value())
+                        .msg("삭제가 완료 되었습니다.")
+                        .build());
     }
 
 

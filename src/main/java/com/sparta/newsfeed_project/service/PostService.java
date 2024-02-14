@@ -3,14 +3,12 @@ package com.sparta.newsfeed_project.service;
 import com.sparta.newsfeed_project.dto.PostRequestDto;
 import com.sparta.newsfeed_project.dto.PostResponseDto;
 import com.sparta.newsfeed_project.entity.Post;
-import com.sparta.newsfeed_project.entity.User;
 import com.sparta.newsfeed_project.repository.PostRepository;
 import com.sparta.newsfeed_project.repository.UserRepository;
 import com.sparta.newsfeed_project.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -20,10 +18,8 @@ public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-
-
-    public List<Post> getPostList() {
-        return postRepository.findAll();
+    public List<PostResponseDto> getPostList() {
+        return postRepository.findAllByOrderByIdDesc().stream().map(PostResponseDto::new).toList();
     }
 
     public Post getPost(Long id) {
@@ -40,19 +36,19 @@ public class PostService {
     public Long deletePost(Long id) {
         postRepository.deleteById(id);
         return id;
-
     }
 
     public Post findPostId(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다"));
     }
 
-    public User findUserId(Long userId) {
-        return userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("해당 유저가 존재하지 않습니다"));
-    }
 
-//    public PostResponseDto createPost(PostRequestDto requestDto, User user) {
-//        return userRepository.
-//    }
+
+    public Post createPost(PostRequestDto requestDto, UserDetailsImpl userDetails) {
+        Post newPost = requestDto.toEntity();
+        newPost.setUser(userDetails.getUser());
+        System.out.println("user = " + newPost.getUser());
+        return postRepository.save(newPost);
+    }
 
 }

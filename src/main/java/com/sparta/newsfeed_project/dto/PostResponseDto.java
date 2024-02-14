@@ -13,6 +13,7 @@ public class PostResponseDto {
     private Long id;
     private String content;
     private String title;
+
     @Builder
     public PostResponseDto(Post post){
         this.id=post.getId();
