@@ -67,9 +67,9 @@ public class UserService {
     //프로필 수정
     @Transactional
     public UserResponseDto updateProfile(Long id, UserRequestDto dto) {
-        User user = checkPWAndGet(id, dto);
+        User user = checkPWAndGet(id, dto.getPassword());
 
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setIntro(dto.getIntro());
 
         return new UserResponseDto(user);
@@ -77,15 +77,15 @@ public class UserService {
     }
 
 //    //프로필 비밀번호 체크
-    private User checkPWAndGet(Long id, UserRequestDto dto) {
+    private User checkPWAndGet(Long id, String password) {
         User user = getUser(id);
-
-        String decodedPassword = dto.getPassword();
         // 비밀번호 체크
-        if (decodedPassword != null &&
-                passwordEncoder.matches(decodedPassword, passwordEncoder.encode(user.getPassword()))) {
-            throw new IllegalArgumentException();
+        if (!passwordEncoder.matches(password,user.getPassword())) {
+            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
         }
+//        if (user.getPassword() != null && !Objects.equals(user.getPassword(),password)) {
+//            throw new IllegalArgumentException();
+//        }
         return user;
     }
 }
