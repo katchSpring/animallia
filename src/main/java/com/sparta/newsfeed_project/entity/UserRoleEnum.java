@@ -1,6 +1,9 @@
 package com.sparta.newsfeed_project.entity;
 
 
+import lombok.Getter;
+
+@Getter
 public enum UserRoleEnum {
     USER(Authority.USER),  // 사용자 권한
     ADMIN(Authority.ADMIN);  // 관리자 권한
@@ -9,10 +12,6 @@ public enum UserRoleEnum {
 
     UserRoleEnum(String authority) {
         this.authority = authority;
-    }
-
-    public String getAuthority() {
-        return this.authority;
     }
 
     public static class Authority {

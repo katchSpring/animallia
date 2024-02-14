@@ -12,7 +12,6 @@ import lombok.Value;
 public class UserRequestDto {
 
     String username;
-
     String password;
     String intro;
 

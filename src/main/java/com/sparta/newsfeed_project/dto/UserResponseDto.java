@@ -18,8 +18,6 @@ public class UserResponseDto extends CommonResponseDto {
 
     private String intro;
 
-    private List<Post> postList = new ArrayList<>();
-
 
     public UserResponseDto(String msg, Integer statusCode) {
         super(msg, statusCode);
