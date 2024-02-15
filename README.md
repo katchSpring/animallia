@@ -10,9 +10,9 @@
 
 2. 연관관계 다이어그램
 
-    <img width="909" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/a4ac0540-0f22-427a-87c2-98e3957a32a4">
+    <img width="999" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/a4ac0540-0f22-427a-87c2-98e3957a32a4">
 
   
 3. Api 명세서
 
-<img width="1300" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/87626d6a-7171-4837-ae5d-2b658180f94b">
+<img width="999" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/87626d6a-7171-4837-ae5d-2b658180f94b">
