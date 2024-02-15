@@ -16,7 +16,7 @@
 
    <img width="999" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/87626d6a-7171-4837-ae5d-2b658180f94b">
 
-4. ER 다이어그램
+4. ERD 다이어그램
 
    <img width="637" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/939fdddd-90e3-466f-8043-66b36fbaba3e">
 
