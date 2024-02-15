@@ -18,7 +18,7 @@
 
 4. ER 다이어그램
 
-   <img width="666" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/26ed45a3-df22-4697-b549-0dae3584ed51">
+   <img width="637" alt="image" src="https://github.com/katchSpring/animallia/assets/108345184/939fdddd-90e3-466f-8043-66b36fbaba3e">
 
 5. 마무리 회고록
 
