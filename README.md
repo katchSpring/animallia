@@ -1,4 +1,4 @@
-[![Harlok's WakaTime stats](https://github-readme-stats.vercel.app/api/wakatime?username=onenyeong)](https://github.com/anuraghazra/github-readme-stats)
+
 1. 팀소개 및 프로젝트 소개
    
 - 프로젝트 명 :  **Animalia**
