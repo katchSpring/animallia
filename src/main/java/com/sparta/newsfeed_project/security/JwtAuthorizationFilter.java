@@ -44,9 +44,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 }
 
                 Claims info = jwtUtil.getUserInfoFromToken(tokenValue);
-
+                System.out.println("info = " + info);
                 try {
                     setAuthentication(info.getSubject());
+                    
                 } catch (Exception e) {
                     log.error(e.getMessage());
                     return;

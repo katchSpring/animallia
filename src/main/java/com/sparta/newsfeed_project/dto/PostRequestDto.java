@@ -13,9 +13,18 @@ import lombok.Setter;
 public class PostRequestDto {
     private String title;
     private String content;
+    private User user;
+
     public Post toEntity() {
         return Post.builder().title(this.title)
                 .content(this.content)
+                .user(user)
                 .build();
+    }
+
+    public PostRequestDto(String title, String content, User user) {
+        this.title = title;
+        this.content = content;
+        this.user = user;
     }
 }

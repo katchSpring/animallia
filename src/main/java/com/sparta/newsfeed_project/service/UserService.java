@@ -9,10 +9,12 @@ import com.sparta.newsfeed_project.entity.UserRoleEnum;
 import com.sparta.newsfeed_project.jwt.JwtUtil;
 import com.sparta.newsfeed_project.repository.UserRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void signup(SignupRequestDto requestDto) {
+    public void signup(@Valid SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         String password = passwordEncoder.encode(requestDto.getPassword());
         UserRoleEnum role = requestDto.getRole();
