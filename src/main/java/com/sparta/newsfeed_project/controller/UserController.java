@@ -30,15 +30,6 @@ public class UserController {
         return "index";
     }
 
-    @GetMapping("/user/signup-page")
-    public String signup() {
-        return "signup";
-    }
-
-    @GetMapping("/user/login-page")
-    public String login() {
-        return "login-page";
-    }
 
     @PostMapping("/user/signup")
     public ResponseEntity<String> signup(@Valid @RequestBody SignupRequestDto requestDto, BindingResult result) {

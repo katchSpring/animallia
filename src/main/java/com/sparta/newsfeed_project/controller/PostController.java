@@ -36,8 +36,8 @@ public class PostController {
     private final JwtUtil jwtUtil;
     @PostMapping("/post")
     public ResponseEntity<CommonResponse<PostResponseDto>> createPost(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Post post = postService.createPost(requestDto, userDetails);
-        PostResponseDto response = new PostResponseDto(post);
+          PostResponseDto response = postService.createPost(requestDto,userDetails.getUser());
+
         return ResponseEntity.ok()
                 .body(CommonResponse.<PostResponseDto>builder()
                         .statusCode(HttpStatus.OK.value())
